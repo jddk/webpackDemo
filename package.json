@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "main.js",
 	"scripts": {
-		"serve": "webpack-dev-server --mode development --progress --open",
+		"serve": "webpack-dev-server --env.development --mode development --progress --open",
+		"build:dev": "webpack --env.development --mode development --progress",
 		"build": "webpack --env.production --mode production --progress"
 	},
 	"author": "",

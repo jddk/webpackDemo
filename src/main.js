@@ -1,7 +1,7 @@
 /*
  * @name:
  * @Date: 2020-09-29 09:04:05
- * @LastEditTime: 2020-09-30 16:40:49
+ * @LastEditTime: 2020-10-05 17:22:43
  * @FilePath: \webpackDemo\src\main.js
  * @permission:
  */
@@ -35,4 +35,7 @@ function p() {
 console.log(process, "process.env.production");
 console.log(process.env.NODE_ENV, "NODE_ENV");
 p();
-div();
+
+setTimeout(()=>{
+	div();
+},1000)
