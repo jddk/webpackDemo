@@ -1,0 +1,27 @@
+{
+	"name": "webpackdemo",
+	"version": "1.0.0",
+	"description": "",
+	"main": "main.js",
+	"scripts": {
+		"serve": "webpack-dev-server --mode development --progress --open",
+		"build": "webpack --env.production --mode production --progress"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"clean-webpack-plugin": "^3.0.0",
+		"css-loader": "^4.3.0",
+		"file-loader": "^6.1.0",
+		"html-webpack-plugin": "^4.5.0",
+		"moment": "^2.29.0",
+		"style-loader": "^1.2.1",
+		"webpack": "^4.44.2",
+		"webpack-cli": "^3.3.12",
+		"webpack-dev-server": "^3.11.0"
+	},
+	"dependencies": {
+		"jddk.js": "^1.0.0",
+		"vue": "^2.6.12"
+	}
+}
