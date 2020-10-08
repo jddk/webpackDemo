@@ -1,6 +1,6 @@
 <!--
  * @Date: 2020-10-08 12:14:54
- * @LastEditTime: 2020-10-08 15:37:43
+ * @LastEditTime: 2020-10-08 22:11:36
  * @FilePath: \webpackDemo\README.md
  * @Author: 九段刀客
  * @permission: 
@@ -21,3 +21,4 @@ https://blog.csdn.net/weixin_35958891/article/details/108863471
 - 5、实现公用代码提取，实现按需加载
 - 6、实现css代码的提取
 - 7、添加babel配置
+- 8、配置vue脚手架
