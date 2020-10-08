@@ -1,7 +1,7 @@
 /*
  * @name:
  * @Date: 2020-09-29 09:05:47
- * @LastEditTime: 2020-10-08 12:02:20
+ * @LastEditTime: 2020-10-08 15:19:28
  * @FilePath: \webpackDemo\webpack.config.js
  * @permission:
  */
@@ -24,12 +24,12 @@ module.exports = function (env, argv) {
 			path: `${__dirname}/dist`,
 			// 公用部分代码块文件名，公用部分的代码会提取压缩到这个文件中
 			chunkFilename:
-				argv.mode.production == 'production'
+				argv.mode == 'production'
 					? "[name].[contenthash].js"
 					: "[name].chunk.js",
 			// 模块名+哈希字符的文件名
 			filename:
-				argv.mode.production == 'production'
+				argv.mode == 'production'
 					? "[name].[contenthash].js"
 					: "[name].chunk.js",
 		},
@@ -45,7 +45,7 @@ module.exports = function (env, argv) {
 			}),
 
 		],
-		// 处理css,图片，字体文件等
+		// 加载器：处理css,图片，字体文件等
 		module: {
 			rules: [
 				{
@@ -59,6 +59,16 @@ module.exports = function (env, argv) {
 				{
 					test: /\.(woff|woff2|eot|ttf|otf)$/,
 					use: ["file-loader"],
+				},
+				{
+					test: /\.m?js$/,
+					exclude: /(node_modules|bower_components)/,
+					use: {
+						loader: 'babel-loader',
+						options: {
+							presets: ['@babel/preset-env']
+						}
+					}
 				},
 			],
 		},
