@@ -1,7 +1,7 @@
 /*
  * @name:
  * @Date: 2020-09-29 09:05:47
- * @LastEditTime: 2020-10-08 15:19:28
+ * @LastEditTime: 2020-10-08 21:57:12
  * @FilePath: \webpackDemo\webpack.config.js
  * @permission:
  */
@@ -11,13 +11,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // 提取css文件
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// 实现处理.vue文件
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = function (env, argv) {
 	return {
 		// 入口
 		entry: {
-			main: "./src/main.js",
-			test: "./src/js/test.js",
+			main: "./src/main.js"
 		},
 		// 出口
 		output: {
@@ -41,9 +42,9 @@ module.exports = function (env, argv) {
 			new MiniCssExtractPlugin(),
 			// 生成HTML文件并导入js和css
 			new HtmlWebpackPlugin({
-				title: "webpack demo",
+				template: 'public/index.html'
 			}),
-
+			new VueLoaderPlugin()
 		],
 		// 加载器：处理css,图片，字体文件等
 		module: {
@@ -70,6 +71,10 @@ module.exports = function (env, argv) {
 						}
 					}
 				},
+				{
+					test: /\.vue$/,
+					loader: 'vue-loader'
+				}
 			],
 		},
 		// 优化
