@@ -1,7 +1,7 @@
 /*
  * @name:
  * @Date: 2020-09-29 09:04:05
- * @LastEditTime: 2020-10-05 17:22:43
+ * @LastEditTime: 2020-10-05 18:04:50
  * @FilePath: \webpackDemo\src\main.js
  * @permission:
  */
@@ -32,6 +32,8 @@ function p() {
 	document.body.appendChild(element);
 	new Vue();
 }
+
+process.env.TESTaaa = '九段刀客'
 console.log(process, "process.env.production");
 console.log(process.env.NODE_ENV, "NODE_ENV");
 p();

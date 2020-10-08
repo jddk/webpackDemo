@@ -1,39 +1,66 @@
 /*
  * @name:
  * @Date: 2020-09-29 09:05:47
- * @LastEditTime: 2020-10-05 17:45:12
+ * @LastEditTime: 2020-10-08 12:02:20
  * @FilePath: \webpackDemo\webpack.config.js
  * @permission:
  */
+// 生成HTML
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+// 清空文件夹
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+// 提取css文件
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = function (env, argv) {
 	return {
+		// 入口
 		entry: {
 			main: "./src/main.js",
 			test: "./src/js/test.js",
 		},
-		plugins: [
-			// 打包前清理dist
-			new CleanWebpackPlugin(),
-			// 生成HTML文件并导入js和css
-			new HtmlWebpackPlugin({
-				title: "webpack demo",
-			}),
-		],
+		// 出口
 		output: {
 			path: `${__dirname}/dist`,
 			// 公用部分代码块文件名，公用部分的代码会提取压缩到这个文件中
 			chunkFilename:
-				env.production
+				argv.mode.production == 'production'
 					? "[name].[contenthash].js"
 					: "[name].chunk.js",
 			// 模块名+哈希字符的文件名
 			filename:
-				env.production
+				argv.mode.production == 'production'
 					? "[name].[contenthash].js"
 					: "[name].chunk.js",
+		},
+		// 插件配置
+		plugins: [
+			// 打包前清理dist
+			new CleanWebpackPlugin(),
+			// 将css提取到一个单独的文件
+			new MiniCssExtractPlugin(),
+			// 生成HTML文件并导入js和css
+			new HtmlWebpackPlugin({
+				title: "webpack demo",
+			}),
+
+		],
+		// 处理css,图片，字体文件等
+		module: {
+			rules: [
+				{
+					test: /\.css$/i,
+					use: [MiniCssExtractPlugin.loader, 'css-loader'],
+				},
+				{
+					test: /\.(png|svg|jpg|gif)$/,
+					use: ["file-loader"],
+				},
+				{
+					test: /\.(woff|woff2|eot|ttf|otf)$/,
+					use: ["file-loader"],
+				},
+			],
 		},
 		// 优化
 		optimization: {
@@ -52,23 +79,6 @@ module.exports = function (env, argv) {
 					},
 				},
 			},
-		},
-		// 处理css,图片，字体文件等
-		module: {
-			rules: [
-				{
-					test: /\.css$/,
-					use: ["style-loader", "css-loader"],
-				},
-				{
-					test: /\.(png|svg|jpg|gif)$/,
-					use: ["file-loader"],
-				},
-				{
-					test: /\.(woff|woff2|eot|ttf|otf)$/,
-					use: ["file-loader"],
-				},
-			],
 		},
 		// 开发服务器
 		devServer: {
