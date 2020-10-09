@@ -1,7 +1,7 @@
 /*
  * @name:
  * @Date: 2020-09-29 09:05:47
- * @LastEditTime: 2020-10-08 21:57:12
+ * @LastEditTime: 2020-10-09 17:02:31
  * @FilePath: \webpackDemo\webpack.config.js
  * @permission:
  */
@@ -18,19 +18,19 @@ module.exports = function (env, argv) {
 	return {
 		// 入口
 		entry: {
-			main: "./src/main.js"
+			main: "./src/main.js",
 		},
 		// 出口
 		output: {
 			path: `${__dirname}/dist`,
 			// 公用部分代码块文件名，公用部分的代码会提取压缩到这个文件中
 			chunkFilename:
-				argv.mode == 'production'
+				argv.mode == "production"
 					? "[name].[contenthash].js"
 					: "[name].chunk.js",
 			// 模块名+哈希字符的文件名
 			filename:
-				argv.mode == 'production'
+				argv.mode == "production"
 					? "[name].[contenthash].js"
 					: "[name].chunk.js",
 		},
@@ -38,20 +38,28 @@ module.exports = function (env, argv) {
 		plugins: [
 			// 打包前清理dist
 			new CleanWebpackPlugin(),
-			// 将css提取到一个单独的文件
-			new MiniCssExtractPlugin(),
 			// 生成HTML文件并导入js和css
 			new HtmlWebpackPlugin({
-				template: 'public/index.html'
+				template: "public/index.html",
 			}),
-			new VueLoaderPlugin()
+			new VueLoaderPlugin(),
+			// 将css提取到一个单独的文件
+			new MiniCssExtractPlugin({
+				filename: "main.css",
+			}),
 		],
 		// 加载器：处理css,图片，字体文件等
 		module: {
 			rules: [
 				{
-					test: /\.css$/i,
-					use: [MiniCssExtractPlugin.loader, 'css-loader'],
+					test: /\.css$/,
+					use: [
+						argv.mode == "production"
+							? MiniCssExtractPlugin.loader
+							: "vue-style-loader",
+							"style-loader",
+						"css-loader",
+					],
 				},
 				{
 					test: /\.(png|svg|jpg|gif)$/,
@@ -65,16 +73,16 @@ module.exports = function (env, argv) {
 					test: /\.m?js$/,
 					exclude: /(node_modules|bower_components)/,
 					use: {
-						loader: 'babel-loader',
+						loader: "babel-loader",
 						options: {
-							presets: ['@babel/preset-env']
-						}
-					}
+							presets: ["@babel/preset-env"],
+						},
+					},
 				},
 				{
 					test: /\.vue$/,
-					loader: 'vue-loader'
-				}
+					loader: "vue-loader",
+				},
 			],
 		},
 		// 优化
@@ -98,11 +106,11 @@ module.exports = function (env, argv) {
 		// 开发服务器
 		devServer: {
 			// 监听文件的位置
-			contentBase: `${__dirname}/dist`,
-			compress: true,
+			// contentBase: `${__dirname}/dist`,
+			// compress: true,
 			port: 9000,
 			//允许通过外部访问
-			host: "0.0.0.0",
+			// host: "0.0.0.0",
 			// 模块热替换，实现只更新局部
 			hot: true,
 		},
