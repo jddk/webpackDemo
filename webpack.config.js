@@ -1,7 +1,7 @@
 /*
  * @name:
  * @Date: 2020-09-29 09:05:47
- * @LastEditTime: 2020-10-09 17:02:31
+ * @LastEditTime: 2020-10-09 17:20:41
  * @FilePath: \webpackDemo\webpack.config.js
  * @permission:
  */
@@ -45,7 +45,7 @@ module.exports = function (env, argv) {
 			new VueLoaderPlugin(),
 			// 将css提取到一个单独的文件
 			new MiniCssExtractPlugin({
-				filename: "main.css",
+				filename: "[name].[contenthash].css",
 			}),
 		],
 		// 加载器：处理css,图片，字体文件等
@@ -56,8 +56,8 @@ module.exports = function (env, argv) {
 					use: [
 						argv.mode == "production"
 							? MiniCssExtractPlugin.loader
-							: "vue-style-loader",
-							"style-loader",
+							: "vue-style-loader", //开发时不需要提取css文件
+						argv.mode == "production" ? "css-loader" : "style-loader",//处理编译不需要style-loader
 						"css-loader",
 					],
 				},
