@@ -1,7 +1,7 @@
 /*
  * @name:
  * @Date: 2020-09-29 09:05:47
- * @LastEditTime: 2020-10-13 14:48:08
+ * @LastEditTime: 2020-10-13 16:39:28
  * @FilePath: \webpackDemo\webpack.config.js
  * @permission:
  */
@@ -10,11 +10,23 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 // 清空文件夹
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // 提取css文件
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // 实现处理.vue文件
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
-module.exports = function (env, argv) {
+module.exports = function(env, argv) {
+	// 根据不同的mode配置不同的loader
+	let scssCssUse = [];
+	if (argv.mode == "production") {
+		scssCssUse = [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"];
+	} else {
+		scssCssUse = [
+			"vue-style-loader",
+			"style-loader",
+			"css-loader",
+			"sass-loader",
+		];
+	}
 	return {
 		// 入口
 		entry: {
@@ -58,23 +70,16 @@ module.exports = function (env, argv) {
 		module: {
 			rules: [
 				{
-					test: /\.(|css|scss|)$/,
-					use: [
-						argv.mode == "production"
-							? MiniCssExtractPlugin.loader
-							: "vue-style-loader", //开发时不需要提取css文件
-						argv.mode == "production" ? "css-loader" : "style-loader", //处理编译不需要style-loader
-						"css-loader",
-						"sass-loader",
-					],
+					test: /\.(css|scss)$/,
+					use: scssCssUse,
 				},
 				{
-					test: /\.(png|svg|jpg|gif)$/,
-					use: ["file-loader"],
+					test: /\.(png|svg|jpg|jpeg|gif)$/,
+					use: ["file-loader", "url-loader"],
 				},
 				{
-					test: /\.(woff|woff2|eot|ttf|otf)$/,
-					use: ["file-loader"],
+					test: /\.(woff|woff2|eot|ttf|otf|wtff)$/,
+					use: ["file-loader", "url-loader"],
 				},
 				{
 					test: /\.m?js$/,
