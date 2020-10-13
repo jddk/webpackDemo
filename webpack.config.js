@@ -1,7 +1,7 @@
 /*
  * @name:
  * @Date: 2020-09-29 09:05:47
- * @LastEditTime: 2020-10-09 17:20:41
+ * @LastEditTime: 2020-10-13 14:48:08
  * @FilePath: \webpackDemo\webpack.config.js
  * @permission:
  */
@@ -34,6 +34,12 @@ module.exports = function (env, argv) {
 					? "[name].[contenthash].js"
 					: "[name].chunk.js",
 		},
+		resolve: {
+			// 配置相对路径
+			alias: {
+				"@": `${__dirname}/src`,
+			},
+		},
 		// 插件配置
 		plugins: [
 			// 打包前清理dist
@@ -52,13 +58,14 @@ module.exports = function (env, argv) {
 		module: {
 			rules: [
 				{
-					test: /\.css$/,
+					test: /\.(|css|scss|)$/,
 					use: [
 						argv.mode == "production"
 							? MiniCssExtractPlugin.loader
 							: "vue-style-loader", //开发时不需要提取css文件
-						argv.mode == "production" ? "css-loader" : "style-loader",//处理编译不需要style-loader
+						argv.mode == "production" ? "css-loader" : "style-loader", //处理编译不需要style-loader
 						"css-loader",
+						"sass-loader",
 					],
 				},
 				{
