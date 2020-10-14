@@ -1,7 +1,7 @@
 /*
  * @name:
  * @Date: 2020-09-29 09:05:47
- * @LastEditTime: 2020-10-13 16:39:28
+ * @LastEditTime: 2020-10-13 17:10:19
  * @FilePath: \webpackDemo\webpack.config.js
  * @permission:
  */
@@ -13,6 +13,8 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // 实现处理.vue文件
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
+// gzip压缩
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
 
 module.exports = function(env, argv) {
 	// 根据不同的mode配置不同的loader
@@ -64,6 +66,14 @@ module.exports = function(env, argv) {
 			// 将css提取到一个单独的文件
 			new MiniCssExtractPlugin({
 				filename: "[name].[contenthash].css",
+			}),
+			// gzip压缩
+			new CompressionWebpackPlugin({
+				// asset: "[path].gz[query]",
+				algorithm: "gzip",
+				test: /\.(js|css|woff|ttf)$/,
+				threshold: 10240,
+				minRatio: 0.8
 			}),
 		],
 		// 加载器：处理css,图片，字体文件等
