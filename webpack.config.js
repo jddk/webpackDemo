@@ -1,7 +1,7 @@
 /*
  * @name:
  * @Date: 2020-09-29 09:05:47
- * @LastEditTime: 2020-10-13 17:10:19
+ * @LastEditTime: 2020-10-19 17:38:59
  * @FilePath: \webpackDemo\webpack.config.js
  * @permission:
  */
@@ -53,6 +53,8 @@ module.exports = function(env, argv) {
 			alias: {
 				"@": `${__dirname}/src`,
 			},
+			// typescript配置
+			extensions: [".tsx", ".ts", ".js"],
 		},
 		// 插件配置
 		plugins: [
@@ -73,7 +75,7 @@ module.exports = function(env, argv) {
 				algorithm: "gzip",
 				test: /\.(js|css|woff|ttf)$/,
 				threshold: 10240,
-				minRatio: 0.8
+				minRatio: 0.8,
 			}),
 		],
 		// 加载器：处理css,图片，字体文件等
@@ -104,6 +106,11 @@ module.exports = function(env, argv) {
 				{
 					test: /\.vue$/,
 					loader: "vue-loader",
+				},
+				{
+					test: /\.ts$/,
+					loader: "ts-loader",
+					options: { appendTsSuffixTo: [/\.vue$/] },
 				},
 			],
 		},
